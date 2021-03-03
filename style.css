@@ -64,7 +64,7 @@ canvas {
 }
 
 .controlls__btns button:active {
-  transform: scale(1.1);
+  transform: scale(0.98);
 }
 
 .controlls__range {
