@@ -4,12 +4,17 @@ const colors = document.querySelectorAll('.color');
 const range = document.querySelector('#range');
 const mode_btn = document.querySelector('#btns__mode-btn');
 
-// Hard
-canvas.width = 700;
-canvas.height = 700;
+const initial_color = '#2c2c2c';
+const canvas_size = 700;
 
-ctx.strokeStyle = '#2c2c2c';
+// Hard
+canvas.width = canvas_size;
+canvas.height = canvas_size;
+
+ctx.strokeStyle = initial_color;
 ctx.lineWidth = '2.5';
+
+ctx.fillStyle = initial_color;
 
 let painting = false;
 let filling = false;
@@ -46,6 +51,7 @@ function handle_color_click(e) {
     const color = e.target.style.backgroundColor;
     
     ctx.strokeStyle = color;
+    ctx.fillStyle = color;
 }
 
 function handle_range_change(e) {
@@ -54,13 +60,19 @@ function handle_range_change(e) {
     ctx.lineWidth = width; 
 }
 
-function handle_mode_click(e) {
+function handle_mode_click() {
     if(filling) {
         filling = false;
-        e.target.innerText = 'Fill';
+        mode_btn.innerText = 'Fill';
     } else {
         filling = true;
-        e.target.innerText = 'Paint';
+        mode_btn.innerText = 'Paint';
+    }
+}
+
+function handle_canvas_click() {
+    if(filling) {
+        ctx.fillRect(0,0, canvas.width, canvas.height);
     }
 }
 
@@ -69,6 +81,7 @@ if(canvas) {
     canvas.addEventListener('mousedown', on_mouse_down);
     canvas.addEventListener('mouseup',stop_painting);
     canvas.addEventListener('mouseleave', stop_painting);
+    canvas.addEventListener('click', handle_canvas_click)
 }
 
 if(colors) {
