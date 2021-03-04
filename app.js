@@ -3,6 +3,7 @@ const ctx = canvas.getContext('2d');
 const colors = document.querySelectorAll('.color');
 const range = document.querySelector('#range');
 const mode_btn = document.querySelector('#btns__mode-btn');
+const save_btn =document.querySelector('#btns__save-btn');
 
 const initial_color = '#2c2c2c';
 const canvas_size = 700;
@@ -13,6 +14,10 @@ canvas.height = canvas_size;
 
 ctx.strokeStyle = initial_color;
 ctx.lineWidth = '2.5';
+
+// 기본 배경 설정
+ctx.fillStyle = 'white';
+ctx.fillRect(0,0, canvas.width, canvas.height);
 
 ctx.fillStyle = initial_color;
 
@@ -76,12 +81,27 @@ function handle_canvas_click() {
     }
 }
 
+function handle_CM(e) {
+    e.preventDefault();
+}
+
+function handle_save_click () {
+    const image = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = image;
+    link.download = 'Paint JS';
+    
+    link.click();
+}
+
 if(canvas) {
     canvas.addEventListener('mousemove', on_mouse_move);
     canvas.addEventListener('mousedown', on_mouse_down);
     canvas.addEventListener('mouseup',stop_painting);
     canvas.addEventListener('mouseleave', stop_painting);
-    canvas.addEventListener('click', handle_canvas_click)
+    canvas.addEventListener('click', handle_canvas_click);
+    // canvas 위에서 우클릭 방지
+    canvas.addEventListener('contextmenu', handle_CM);
 }
 
 if(colors) {
@@ -96,4 +116,8 @@ if(range) {
 
 if(mode_btn) {
     mode_btn.addEventListener('click',handle_mode_click);
+}
+
+if(save_btn) {
+    save_btn.addEventListener('click', handle_save_click)
 }
